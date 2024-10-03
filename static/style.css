@@ -1,0 +1,12 @@
+body {
+    background: linear-gradient(to right, #60A5FA, #ffbf00, #131c27) !important;
+}
+
+textarea {
+    resize: none !important;
+}
+
+button:focus {
+    outline: none !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+}
