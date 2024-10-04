@@ -16,7 +16,6 @@
             <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Sentiment Analysis</h1>
             
             <form id="sentimentForm" class="flex flex-col">
-                <label for="userInput" class="mb-2 text-gray-700">Enter text:</label>
                 <textarea id="userInput" class="p-4 border border-gray-300 rounded-md mb-4" rows="4" placeholder="Enter text"></textarea>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Analyze Sentiment
@@ -28,19 +27,19 @@
 
             <div id="result" class="mt-6 text-center text-gray-700 flex flex-col gap-6 sm:flex-row justify-center">
                 <!-- Positive Sentiment Box -->
-                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform hover:scale-105">
+                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform p-4">
                     <p class="text-xl font-bold">Positive: <span id="positive-percent"></span>%</p>
                     <p class="mt-2 text-gray-600" id="positive-text"></p>
                 </div>
 
                 <!-- Neutral Sentiment Box -->
-                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform hover:scale-105">
+                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform p-4">
                     <p class="text-xl font-bold">Neutral: <span id="neutral-percent"></span>%</p>
                     <p class="mt-2 text-gray-600" id="neutral-text"></p>
                 </div>
 
                 <!-- Negative Sentiment Box -->
-                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform hover:scale-105">
+                <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full text-left transform transition-transform p-4">
                     <p class="text-xl font-bold">Negative: <span id="negative-percent"></span>%</p>
                     <p class="mt-2 text-gray-600" id="negative-text"></p>
                 </div>

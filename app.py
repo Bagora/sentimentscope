@@ -2,14 +2,16 @@ from flask import Flask, render_template, request, jsonify
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import os
-import pickle
 import string
+import pickle
 
 app = Flask(__name__)
 
-nltk.download('punkt')
+# Specify the path to your local nltk_data folder
+nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+nltk.data.path.append(nltk_data_path)
 
-# Load the English tokenizer from the pickle file
+# Load the English tokenizer manually from the pickle file in your local folder
 def load_tokenizer(pickle_path):
     try:
         with open(pickle_path, 'rb') as f:
@@ -19,14 +21,33 @@ def load_tokenizer(pickle_path):
         print("Error loading tokenizer:", e)
         return None
 
-# Load the tokenizer
-english_pickle_path = os.path.join(os.getcwd(), 'english.pickle')
+# Set the local path for the Punkt tokenizer (English)
+english_pickle_path = os.path.join(nltk_data_path, 'tokenizers', 'punkt', 'english.pickle')
 tokenizer = load_tokenizer(english_pickle_path)
 
-# Initialize the sentiment analyzer (VADER lexicon is already included)
-sid = SentimentIntensityAnalyzer()
+if tokenizer is None:
+    raise FileNotFoundError(f"Punkt tokenizer not found at {english_pickle_path}")
 
-import string
+# Manually load the VADER lexicon
+vader_lexicon_path = os.path.join(nltk_data_path, 'sentiment', 'vader_lexicon', 'vader_lexicon.txt')
+if not os.path.exists(vader_lexicon_path):
+    raise FileNotFoundError(f"VADER lexicon not found at {vader_lexicon_path}")
+
+# Manually load the VADER lexicon file
+def load_vader_lexicon(lexicon_path):
+    lexicon = {}
+    with open(lexicon_path, 'r') as file:
+        for line in file:
+            if not (line.strip() and not line.startswith(';')):
+                continue
+            word, measure = line.strip().split('\t')[0:2]
+            lexicon[word] = float(measure)
+    return lexicon
+
+# Initialize the sentiment analyzer with the manually loaded lexicon
+vader_lexicon = load_vader_lexicon(vader_lexicon_path)
+sid = SentimentIntensityAnalyzer()
+sid.lexicon.update(vader_lexicon)
 
 def analyze_text_parts(text):
     try:
@@ -72,7 +93,6 @@ def analyze_text_parts(text):
     except Exception as e:
         print("Error analyzing text parts:", e)
         return {'positive': 'Error', 'neutral': 'Error', 'negative': 'Error'}
-
 
 @app.route('/')
 def index():
